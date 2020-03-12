@@ -1,0 +1,27 @@
+{
+  "name": "eight-queens.ipynb",
+  "version": "0.7.5",
+  "description": "A Jupyter notebook for solving the eight queens problem. ",
+  "main": "eight-queens.js.ipynb",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Eight",
+    "Queens"
+  ],
+  "author": "stauffenbits@pm.me",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "d3": "^5.15.0",
+    "d3-binarytree": "^0.1.5",
+    "d3-dispatch": "^1.0.6",
+    "d3-drag": "^1.2.5",
+    "d3-force-3d": "^2.0.3",
+    "d3-octree": "^0.1.5",
+    "d3-quadtree": "^1.0.7",
+    "d3-timer": "^1.0.10",
+    "js-combinatorics": "^0.5.5",
+    "jsdom": "^3.1.2"
+  }
+}
