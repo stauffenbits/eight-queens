@@ -1,13 +1,16 @@
+var board = document.querySelector('#board');
+
 var drawQueen = function(sel){
   setTimeout(function(){
+    board.querySelector(sel).classList.remove('field');
     board.querySelector(sel).classList.add('queen');
   }, 0)
 }
 
-var board = document.querySelector('#board');
 var drawTable = function(queens){
-  document.querySelectorAll('td.queen').forEach(field => {
+  board.querySelectorAll('td.queen').forEach(field => {
     field.classList.remove('queen');
+    field.classList.add('field');
   })
 
   queens.forEach(function(queen, i){
@@ -23,19 +26,29 @@ var worker = new Worker('eight-queens.js');
 document.querySelector('#status').textContent = "Searching...";
 
 worker.onmessage = function(e){
-  if(e.data != 'done'){
+  var message = e.data;
+
+  if(message != 'done'){
     console.log(e.data);
-    drawTable(e.data);
+
+    var queens = e.data;
+
+    drawTable(queens);
     solutionCount++;
 
     setTimeout(function(){
       var li = document.createElement('li');
-      li.textContent = JSON.stringify(e.data);
+      var a = document.createElement('a');
+
+      a.href = '#';
+      a.onclick = drawTable.bind(drawTable, queens);
+      a.text = JSON.stringify(queens);
+      li.appendChild(a);
       document.querySelector('#solutions').prepend(li);
 
-      document.querySelector('#status').textContent = `Searching... ${solutionCount} solutions so far.`
+      document.querySelector('#status').textContent = `Searching... ${solutionCount} solutions so far.`;
     }, 0)
   }else{
-    document.querySelector('#status').textContent = `Done searching. ${solutionCount} solutions found.`
+    document.querySelector('#status').textContent = `Done searching. ${solutionCount} solutions found.`;
   }
 }
