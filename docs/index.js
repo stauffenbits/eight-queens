@@ -42,9 +42,9 @@ worker.onmessage = function(e){
 
       a.href = '#';
       a.onclick = drawTable.bind(drawTable, queens);
-      a.text = JSON.stringify(queens);
+      a.text = queens.join(', ');
       li.appendChild(a);
-      document.querySelector('#solutions').prepend(li);
+      document.querySelector('#solutions').append(li);
 
       document.querySelector('#status').textContent = `Searching... ${solutionCount} solutions so far.`;
     }, 0)
