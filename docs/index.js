@@ -1,4 +1,12 @@
 var board = document.querySelector('#board');
+var worker = new Worker('eight-queens.js');
+
+var board = document.querySelector('#board');
+
+var fields = document.querySelectorAll('td');
+[...fields].forEach((field, i) => {
+  field.fieldIndex = i;
+})
 
 var drawQueen = function(sel){
   setTimeout(function(){
@@ -21,34 +29,54 @@ var drawTable = function(queens){
 }
 
 var solutionCount = 0;
-var worker = new Worker('eight-queens.js');
 
-document.querySelector('#status').textContent = "Searching...";
+var queens = [];
+
+var toggleQueen = function(field){
+  if(field.classList.contains('field')){
+    field.classList.remove('field');
+    field.classList.add('queen');
+
+    queens.push(field.fieldIndex);
+  }else{
+    field.classList.add('field');
+    field.classList.remove('queen');
+
+    delete queens[queens.indexOf(field.fieldIndex)];
+  }
+
+  worker.postMessage({command: 'check', potential: queens.filter(x => x)});
+}
+
+var fields = document.querySelectorAll('.field');
+[...fields].map(function(field){
+  field.addEventListener('click', function(e){
+    toggleQueen(e.target)
+  })
+})
+
+
+var status = document.querySelector('.status-label');
+status.innerHTML = `Is free of conflict: ✓`;
+
+var complete = document.querySelector('.complete-label');
+complete.innerHTML = `Is complete: ✗`;
 
 worker.onmessage = function(e){
-  var message = e.data;
+  var status = document.querySelector('.status-label');
+  status.innerHTML = `Is free of conflict: ${e.data.isSolution ? "✓" : "✗"}`;
 
-  if(message != 'done'){
-    console.log(e.data);
+  var complete = document.querySelector('.complete-label');
+  complete.innerHTML = `Is complete: ${e.data.isComplete ? "✓" : "✗"}`;
 
-    var queens = e.data;
+  if(e.data.isSolution && e.data.isComplete){
+    var li = document.createElement('li');
+    var a = document.createElement('a');
 
-    drawTable(queens);
-    solutionCount++;
-
-    setTimeout(function(){
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-
-      a.href = '#';
-      a.onclick = drawTable.bind(drawTable, queens);
-      a.text = queens.join(', ');
-      li.appendChild(a);
-      document.querySelector('#solutions').append(li);
-
-      document.querySelector('#status').textContent = `Searching... ${solutionCount} solutions so far.`;
-    }, 0)
-  }else{
-    document.querySelector('#status').textContent = `Done searching. ${solutionCount} solutions found.`;
+    a.href = '#';
+    a.onclick = drawTable.bind(drawTable, queens);
+    a.text = queens.join(', ');
+    li.appendChild(a);
+    document.querySelector('#solutions').append(li);
   }
 }

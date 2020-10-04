@@ -116,6 +116,7 @@
 
       a {
         color: teal;
+        text-decoration: none;
       }
 
       a:visited {
@@ -125,23 +126,20 @@
       p.right {
         position: relative;
         left: 25%;
-        justify-content: right;
       }
 
     </style>
-
-
   </head>
   <body>
     
     <div class="container">
       <div class="box">
 
-        <h1>Eight Queens Search</h1>
-        <p class="right">
-          Click a field to place a queen. Click a queen to remove her. Place eight queens on the board so that no two queens threaten each other.
-            }{ <a href="../solutions.html">Solutions</a>
-        </p>
+        <h1><a href="/">Eight Queens</a> Solutions</h1>
+        <i class="attribution">Sourcecode by Joshua Moore of <a href="https://joshuamoore.dev/">joshuamoore.dev</a></i><br>
+        <i class="attribution">Artwork by Jordan Kump of <a href="https://zoundsdesigns.com/">Zounds Designs</a></i>
+        <br> 
+        <br>
         <table id="board">
           <tr>
             <td class="field">&nbsp;</td>
@@ -244,13 +242,12 @@
       </div>
       <div class="box output">
         <div class="status-container">
-          <label class="status-label">Is free of conflict: ✓</label><i id="status"></i>
-          <label class="complete-label">Is complete: ✗</label><i id="complete"></i>
+          <label class="status-label">Status: </label><i id="status"></i>
         </div>
         <ol id="solutions">
         </ol>
       </div>
     </div>
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="solutions.js"></script>
   </body>
 </html>

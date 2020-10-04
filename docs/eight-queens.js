@@ -63,44 +63,72 @@ var Board = class {
   }
 }
 
+
 var board = new Board()
 
-var q0 = range(0, 27, i => i).filter(i => i % 8 < 4)
-var q1 = range(4, 32, i => i).filter(i => i % 8 >= 4)
-var q2 = range(32, 59, i => i).filter(i => i % 8 < 4)
-var q3 = range(36, 63, i => i).filter(i => i % 8 >= 4)
+function solve(){
 
-Object.defineProperty(Array.prototype, 'flat', {
-  value: function(depth = 1) {
-    return this.reduce(function (flat, toFlatten) {
-      return flat.concat((Array.isArray(toFlatten) && (depth>1)) ? toFlatten.flat(depth-1) : toFlatten);
-    }, []);
-  }
-});
 
-var C = Combinatorics;
+  var board = new Board()
 
-var q_combos = [q0, q1, q2, q3].map(q => [...C.bigCombination(q, 2).filter(fields => {
-  return fields !== undefined && !board.threatened(fields[0]).has(fields[1]);
-})])
+  var q0 = range(0, 27, i => i).filter(i => i % 8 < 4)
+  var q1 = range(4, 32, i => i).filter(i => i % 8 >= 4)
+  var q2 = range(32, 59, i => i).filter(i => i % 8 < 4)
+  var q3 = range(36, 63, i => i).filter(i => i % 8 >= 4)
 
-var potentials = C.cartesianProduct(...q_combos).lazyFilter(potential => {
-  return potential.flat().every(i => {
-    return potential.flat().filter(j => j != i).every(j => {
-      return !board.threatened(i).has(j)
+  Object.defineProperty(Array.prototype, 'flat', {
+    value: function(depth = 1) {
+      return this.reduce(function (flat, toFlatten) {
+        return flat.concat((Array.isArray(toFlatten) && (depth>1)) ? toFlatten.flat(depth-1) : toFlatten);
+      }, []);
+    }
+  });
+
+  var C = Combinatorics;
+
+  var q_combos = [q0, q1, q2, q3].map(q => [...C.bigCombination(q, 2).filter(fields => {
+    return fields !== undefined && !board.threatened(fields[0]).has(fields[1]);
+  })])
+
+  var potentials = C.cartesianProduct(...q_combos).lazyFilter(potential => {
+    return potential.flat().every(i => {
+      return potential.flat().filter(j => j != i).every(j => {
+        return !board.threatened(i).has(j)
+      })
     })
   })
-})
 
+  var solutions = [];
 
-var solutions = [];
+  var i = 0;
+  var queens;
 
-var i = 0;
-var queens;
+  while(queens = potentials.next()){
+    queens = queens.flat();
+    postMessage(queens);
+  }
 
-while(queens = potentials.next()){
-  queens = queens.flat();
-  postMessage(queens);
+  postMessage('done')
 }
 
-postMessage('done')
+onmessage = function(e){
+  switch(e.data.command){
+    case "check":
+      var board = new Board();
+
+      var potential = e.data.potential;
+      var isSolution = potential.flat().every(i => {
+        return potential.flat().filter(j => j != i).every(j => {
+          return !board.threatened(i).has(j)
+        })
+      })
+
+      var isComplete = (potential.length === 8);
+
+      postMessage({isSolution, solution: potential, isComplete});
+      break;
+    case "solve":
+      solve();
+      break;
+  }
+}
