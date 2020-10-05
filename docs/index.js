@@ -107,5 +107,6 @@ worker.onmessage = function(e){
 
   if(e.data.isSolution && e.data.isComplete){
     listSolution(queens);
+    saveSolution(queens);
   }
 }
