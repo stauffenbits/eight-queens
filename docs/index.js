@@ -62,6 +62,34 @@ status.innerHTML = `Is free of conflict: ✓`;
 var complete = document.querySelector('.complete-label');
 complete.innerHTML = `Is complete: ✗`;
 
+var listSolution = function(queens){
+  var li = document.createElement('li');
+  var a = document.createElement('a');
+
+  a.href = '#';
+  a.onclick = drawTable.bind(drawTable, queens);
+  a.text = queens.filter(x => x).join(', ');
+  li.appendChild(a);
+  document.querySelector('#solutions').append(li);
+}
+
+var S = window.localStorage;
+
+var saveSolution = function(queens){
+  var solutions = S.getItem('solutions');
+  solutions.push(queens);
+  S.setItem('solutions', solutions);
+}
+
+var loadSolutions = function(){
+  var solutions = S.getItem('solutions');
+  for(var queens of solutions){
+    listSolution(queens);
+  }
+}
+
+loadSolutions();
+
 worker.onmessage = function(e){
   var status = document.querySelector('.status-label');
   status.innerHTML = `Is free of conflict: ${e.data.isSolution ? "✓" : "✗"}`;
@@ -70,13 +98,6 @@ worker.onmessage = function(e){
   complete.innerHTML = `Is complete: ${e.data.isComplete ? "✓" : "✗"}`;
 
   if(e.data.isSolution && e.data.isComplete){
-    var li = document.createElement('li');
-    var a = document.createElement('a');
-
-    a.href = '#';
-    a.onclick = drawTable.bind(drawTable, queens);
-    a.text = queens.filter(x => x).join(', ');
-    li.appendChild(a);
-    document.querySelector('#solutions').append(li);
+    listSolution(queens);
   }
 }
