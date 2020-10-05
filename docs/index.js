@@ -63,6 +63,8 @@ var complete = document.querySelector('.complete-label');
 complete.innerHTML = `Is complete: ✗`;
 
 var listSolution = function(queens){
+  if(!(queens instanceof Array)) return;
+  
   var li = document.createElement('li');
   var a = document.createElement('a');
 
@@ -76,16 +78,19 @@ var listSolution = function(queens){
 var S = window.localStorage;
 
 var saveSolution = function(queens){
-  var solutions = S.getItem('solutions');
+  if(!(queens instanceof Array)) return;
+  
+  var solutions = JSON.parse(S.getItem('solutions'));
   if(!solutions){
     solutions = [];
   }
   solutions.push(queens);
-  S.setItem('solutions', solutions);
+  
+  S.setItem('solutions', JSON.stringify(solutions));
 }
 
 var loadSolutions = function(){
-  var solutions = S.getItem('solutions');
+  var solutions = JSON.parse(S.getItem('solutions'));
   
   if(!solutions){
     solutions = [];
