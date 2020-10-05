@@ -111,7 +111,7 @@ worker.onmessage = function(e){
   complete.innerHTML = `Is complete: ${e.data.isComplete ? "✓" : "✗"}`;
 
   if(e.data.isSolution && e.data.isComplete){
-    listSolution(queens);
-    saveSolution(queens);
+    listSolution(e.data.solution);
+    saveSolution(e.data.solution);
   }
 }
