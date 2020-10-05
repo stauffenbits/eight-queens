@@ -123,7 +123,7 @@ onmessage = function(e){
         })
       })
 
-      var isComplete = (potential.length === 8);
+      var isComplete = isSolution && (potential.length === 8);
 
       postMessage({isSolution, solution: potential, isComplete});
       break;
