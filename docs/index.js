@@ -75,7 +75,7 @@ worker.onmessage = function(e){
 
     a.href = '#';
     a.onclick = drawTable.bind(drawTable, queens);
-    a.text = queens.join(', ');
+    a.text = queens.filter(x => x).join(', ');
     li.appendChild(a);
     document.querySelector('#solutions').append(li);
   }
