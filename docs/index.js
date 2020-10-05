@@ -77,12 +77,20 @@ var S = window.localStorage;
 
 var saveSolution = function(queens){
   var solutions = S.getItem('solutions');
+  if(!solutions){
+    solutions = [];
+  }
   solutions.push(queens);
   S.setItem('solutions', solutions);
 }
 
 var loadSolutions = function(){
   var solutions = S.getItem('solutions');
+  
+  if(!solutions){
+    solutions = [];
+  }
+  
   for(var queens of solutions){
     listSolution(queens);
   }
