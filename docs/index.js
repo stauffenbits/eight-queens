@@ -63,7 +63,9 @@ var clearBoard = function(){
 }
 
 var clearBoardBtn = document.querySelector('#clearBoard');
-clearBoardBtn.addEventListener('click', clearBoard);
+clearBoardBtn.addEventListener('click', function(e){
+  clearBoard();
+});
 
 var status = document.querySelector('.status-label');
 status.innerHTML = `Is free of conflict: ✓`;
