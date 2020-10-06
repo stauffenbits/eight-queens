@@ -55,6 +55,11 @@ var fields = document.querySelectorAll('.field');
   })
 })
 
+var clearBoard = function(){
+  [...fields].forEach(field => {
+    field.classList.remove('queen');
+  })
+}
 
 var status = document.querySelector('.status-label');
 status.innerHTML = `Is free of conflict: ✓`;
