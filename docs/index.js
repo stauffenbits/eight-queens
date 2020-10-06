@@ -56,10 +56,14 @@ var fields = document.querySelectorAll('.field');
 })
 
 var clearBoard = function(){
+  var fields = document.querySelectorAll('.queen');
   [...fields].forEach(field => {
-    field.classList.remove('queen');
-  })
+    toggleQueen(field);
+  });
 }
+
+var clearBoardBtn = document.querySelector('#clearBoard');
+clearBoardBtn.onclick = clearBoard;
 
 var status = document.querySelector('.status-label');
 status.innerHTML = `Is free of conflict: ✓`;
