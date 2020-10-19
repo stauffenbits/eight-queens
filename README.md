@@ -1,6 +1,6 @@
 # eight-queens
 
-The Eight Queens riddle goes as follows: Take 8 pawns, pretens they move as queens, and set them up on the board so that no two queens threaten each other, ie no piece can take another piece in the next move. 
+The Eight Queens riddle goes as follows: Take 8 pawns, pretend they move as queens, and set them up on the board so that no two queens threaten each other, ie no piece can take another piece in the next move. 
 
 My father posed me this riddle when I was young, nad it would be years (nearly a decade) before I found my first solution over tea at a place called "Stern" in Bamberg, Germany. 
 
